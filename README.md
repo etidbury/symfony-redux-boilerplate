@@ -7,8 +7,8 @@ Note that you won't need to run an external node server to do server-side render
 
 Includes [ReactBundle](https://github.com/limenius/ReactBundle) with server and client-side React rendering (universal/isomorphical) and its integration with a Webpack setup.
 
-How to run it
-=============
+Setup
+=====
 
 Requirements: you need a recent version of node, like `v5.5.0`, and Webpack installed (you can install it with `npm install -g webpack webpack-dev-server`.
 
@@ -147,5 +147,5 @@ Check [the annotated configuration](https://github.com/Limenius/symfony-react-sa
 Credits
 =======
 
-This framework is an refined version of [Limenius/symfony-react-sandbox](https://github.com/Limenius/symfony-react-sandbox) 
+This framework is a refined version of [Limenius/symfony-react-sandbox](https://github.com/Limenius/symfony-react-sandbox) 
 which is heavily inspired by the great [React on Rails](https://github.com/shakacode/react_on_rails#), and also makes use its JavaScript package.
