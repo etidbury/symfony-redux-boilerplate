@@ -35,6 +35,15 @@ After this, visit [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 (If you don't see the images, you may want to run `webpack` alone once, the first time, to copy them to `web/`).
 
+##Configuration
+
+Parameters in each of these files need to be changed accordingly.
+
+* app/Resources/config/config.yml
+* app/Resources/config/parameters.yml
+* app/Resources/node-server/config.js
+
+
 
 Why Server-Side rendering?
 ==========================
