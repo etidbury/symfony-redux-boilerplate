@@ -1,0 +1,5 @@
+recipes:
+    resource:     "AppBundle\\Controller\\Api\\RecipeController"
+    type:         rest
+    prefix:       /recipe
+    defaults: {_format: json} # <<<<<<<

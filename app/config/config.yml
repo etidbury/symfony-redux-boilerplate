@@ -1,0 +1,234 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+
+framework:
+    #esi:             ~
+    #translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    serializer:
+        { enabled : true }
+    #    { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets:
+        packages:
+            webpack: ~
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# These are the default configuration options for the React Bundle
+limenius_react:
+    # Other options are "server_side" and "client_side"
+    default_rendering: "both"
+    serverside_rendering:
+        # In case of error in server-side rendering, throw exception
+        fail_loud: false
+        # Replay every console.log message produced during server-side rendering
+        # in the JavaScript console
+        # Note that if enabled it will throw a (harmless) React warning
+        trace: false
+        # Mode can be `"phpexecjs"` (to execute Js from PHP using PhpExecJs),
+        # or `"external_server"` (to rely on an external node.js server)
+        # Default is `"phpexecjs"`
+        mode: "phpexecjs"
+        # Location of the server bundle, that contains React and React on Rails.
+        # null will default to `%kernel.root_dir%/Resources/webpack/server-bundle.js`
+        # Only used with mode `phpexecjs`
+        server_bundle_path: null
+        # Only used with mode `external`
+        # Location of the unix socket to communicate with a dummy node.js server
+        # Such as the one in `Resources/node-server/server.js`
+        # null will default to `%kernel.root_dir%/Resources/node-server/node.sock
+        server_socket_path: null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fos_rest:
+  #  format_listener:
+#        rules:
+ #           - { path: '^/', priorities: ['html','json', 'xml'], fallback_format: json, prefer_extension: false }
+    view:
+        view_response_listener: true
+
+    access_denied_listener:
+        # all requests using the 'json' format will return a 403 on an access denied violation
+        json: true
+
+
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+
+
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+        hosts: []
+        origin_regex: false
+    paths:
+        '^/api/':
+            allow_origin: ['*']
+            allow_headers: ['*']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
+
+
+deploy:
+    prod:
+        rsync-options: '-azC --force --delete --progress -h --checksum --rsync-path=/usr/bin/rsync --exclude=.cpanel,php.ini'
+        host: 198.154.247.248
+        #ssh econona5@69.195.124.162   rm -rf /home4/econona5/tmp/*
+        ###ssh root@198.154.247.248
+        ####manual clear cache rm -r /home4/econona5/public_html/scouttf/app/cache/*
+
+        ###ssh root@198.154.247.248 -D 1234
+
+        #todo: change directory name (CTRL+R '_PROJECTNAME_')
+        dir: /home/scouttf/public_html/_PROJECTNAME_
+        user: root
+        port: 22
+        timeout: 0 # Connection timeout in seconds. 0 for no timeout.
+        post_deploy_operations:
+            # - ln -s /home4/econona5/web/ /home4/econona5/public_html
+
+              - chmod 755 /home/scouttf/public_html/_PROJECTNAME_ -R
+              - rm -rf /home/scouttf/public_html/_PROJECTNAME_/app/cache/*
+              - rm -rf /home/scouttf/public_html/_PROJECTNAME_/app/logs/*
+              - chmod 777 /home/scouttf/public_html/_PROJECTNAME_/app/cache
+              - chmod 777 /home/scouttf/public_html/_PROJECTNAME_/app/logs
+              #- rm /home4/econona5/public_html/scouttf/web/logs
+
+             #- chmod 777 /home4/econona5/public_html/economygames/
+              #- php-cli app/console cache:clear --env=prod
+              #- php-cli composer.phar update
+             # - php-cli app/console doctrine:schema:update --env=prod --force
+              #- php app/console assets:install --env=prod
+              #- php app/console assetic:dump --env=prod
+    uat:
+
+        host: 192.168.1.10
+        user: root2
+        dir: /path/to/project/root
+        port: 22022
+        post_deploy_operations:
+            - cd
+            - php-cli app/console cache:clear --env=prod
+           # - php-cli app/console assets:install --env=prod
+           # - php app/console assetic:dump --env=prod
+            - php-cli app/console doctrine:schema:update --force
+
+
+
+
+
+orderly_pay_pal_ipn:
+    # If set to false then service loads settings with "sandbox_" prefix
+    islive:  true #todo: revert to false if going back to testing mode
+
+
+    # Constants for the live environment (default settings in Configuration.php)
+    email:    economygames@gmail.com
+    url:      https://www.paypal.com/cgi-bin/webscr
+    proxy:    ~
+    debug:    %kernel.debug%
+    pdttoken: pdt-token
+
+    # Constants for the sandbox environment (default settings in Configuration.php)
+    sandbox_email:       seller@paypalsandbox.com
+    sandbox_url:         https://www.sandbox.paypal.com/cgi-bin/webscr
+    sandbox_proxy:       ~
+    sandbox_debug:       true
+    sandbox_response:    VERIFIED
+    sandbox_pdttoken:    pdt-token
+    sandbox_pdtresponse:
+        payment_status: Completed
+        mc_gross: 123.00
+
+    drivers:
+        orm:
+            object_manager: doctrine.orm.entity_manager
+            classes: ~
