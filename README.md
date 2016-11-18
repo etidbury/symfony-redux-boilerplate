@@ -157,4 +157,4 @@ Credits
 =======
 
 This framework is a refined version of [Limenius/symfony-react-sandbox](https://github.com/Limenius/symfony-react-sandbox) 
-which is heavily inspired by the great [React on Rails](https://github.com/shakacode/react_on_rails#), and also makes use its JavaScript package.
+which is heavily inspired by the great [React on Rails](https://github.com/shakacode/react_on_rails#), and also makes use of its JavaScript package.
